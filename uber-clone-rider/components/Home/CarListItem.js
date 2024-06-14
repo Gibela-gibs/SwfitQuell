@@ -1,6 +1,8 @@
 import React from 'react'
+
 import Image from 'next/image'
 import { HiUser } from "react-icons/hi2";
+
 const CarListItem = ({car, distance}) => {
   return (
     <div>

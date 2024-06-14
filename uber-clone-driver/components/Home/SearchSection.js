@@ -9,28 +9,27 @@ function SearchSection() {
     socketRef.current = io('http://localhost:5001');
 
     socketRef.current.on('ride:request', (data) => {
-      setRideRequest(data.rideRequest);
+      setRideRequest(data);
     });
 
     return () => {
+      socketRef.current.off('ride:request');
       socketRef.current.disconnect();
     };
   }, []);
 
   const handleAccept = () => {
     if (rideRequest) {
-      console.log('Ride request accepted');
-      socketRef.current.emit('ride:accept', {
-        driverId: 'driver123', // Replace with actual driver ID
-        rideRequest,
-      });
-      setRideRequest(null); // Clear the ride request after accepting
+      socketRef.current.emit('ride:accept', rideRequest);
+      setRideRequest(null);
     }
   };
 
   const handleDecline = () => {
-    console.log('Ride request declined');
-    setRideRequest(null); // Clear the ride request after declining
+    if (rideRequest) {
+      socketRef.current.emit('ride:decline', rideRequest);
+      setRideRequest(null);
+    }
   };
 
   return (
@@ -39,19 +38,14 @@ function SearchSection() {
         <div className='p-2 md:p-6 border-[2px] rounded-xl'>
           <p className='text-[20px] font-bold'>Ride Request</p>
           <div className='p-2 md:p-6 border-[2px] rounded-lg'>
-            <p>Source: {rideRequest.source.label}</p>
-            <p>Destination: {rideRequest.destination.label}</p>
+            <p>Source: {rideRequest.rideRequest.source.label}</p>
+            <p>Destination: {rideRequest.rideRequest.destination.label}</p>
           </div>
-          <button
-            className='p-3 bg-black w-full mt-5 text-white rounded-lg'
-            onClick={handleAccept}
-          >
+          
+          <button className='p-3 bg-black w-full mt-5 text-white rounded-lg' onClick={handleAccept}>
             Accept
           </button>
-          <button
-            className='p-3 bg-black w-full mt-2 text-white rounded-lg'
-            onClick={handleDecline}
-          >
+          <button className='p-3 bg-black w-full mt-2 text-white rounded-lg' onClick={handleDecline}>
             Decline
           </button>
         </div>
@@ -61,3 +55,10 @@ function SearchSection() {
 }
 
 export default SearchSection;
+
+
+
+
+
+
+
