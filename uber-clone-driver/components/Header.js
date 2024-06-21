@@ -10,7 +10,9 @@ const Header = () => {
             id: 1,
             name: 'Ride',
             icon: '/taxi.png' // 
-            //     Adjusted path to start with a slash '/'
+
+            
+            //     Adjusted path    to start with a slash '/'
         },
         {
             id: 2,
