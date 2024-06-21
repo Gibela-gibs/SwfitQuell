@@ -5,6 +5,8 @@ import { UserButton } from "@clerk/nextjs";
 const Header = () => {
     const headerMenu = [
         {
+
+            
             id: 1,
             name: 'Ride',
             icon: '/taxi.png' // Adjusted path to start with a slash '/'
